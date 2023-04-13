@@ -32,11 +32,11 @@ npm run lint
 
 Apply db migrations
 ```bash
-prisma migrate dev
+npx prisma migrate dev
 ```
 View db locally
 ```bash
-prisma studio
+npx prisma studio
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
