@@ -1,9 +1,11 @@
-import { ConstituentProps } from "@/src/interfaces/index.interface";
-import prisma from "@/src/lib/prisma";
-import { Trait } from "@prisma/client";
-import { Container, Paper, Typography } from "@mui/material";
-import { GetServerSideProps } from "next";
 import React from "react";
+import prisma from "@/src/lib/prisma";
+import { Box, Container, Paper, Stack, Typography } from "@mui/material";
+import { GetServerSideProps } from "next";
+import AppHeader from "@/src/components/AppHeader";
+import { ConstituentProps, TraitProps } from "@/src/types/index.types";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { parseConstituent } from "@/src/helpers/parse";
 
 
 type Props = {
@@ -16,7 +18,12 @@ type Params = {
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const { id } = params as Params;
-    const constituent = await prisma.constituent.findUnique({ where: { id } });
+    const constituent = await prisma.constituent.findUnique({ 
+        where: { id },
+        include: {
+            traits: true,
+        },
+    });
 
     if (constituent === null) {
         return {
@@ -26,11 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     return {
         props: {
-            constituent: ({
-                ...constituent,
-                createdAt: constituent.createdAt.toISOString(),
-                updatedAt: constituent.updatedAt.toISOString(),
-            } as unknown as ConstituentProps )
+            constituent: parseConstituent(constituent)
         },
     };
 };
@@ -38,18 +41,49 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 const UserPage: React.FC<Props> = (props) => {
     const { constituent } = props;
 
+    const renderTraits = (traits: TraitProps[]) => {
+
+        if(traits === undefined) {
+            return(
+                <Typography>No traits</Typography>
+            );
+        }
+        
+        const columns: GridColDef[] = [
+            { field: 'name', headerName: 'Name', width: 200 },
+            { field: 'value', headerName: 'Value', width: 250 },
+            { field: 'source', headerName: 'Data Source', width: 130 },
+        ];
+
+        return (
+            <Box style={{ height: 400, width: '100%' }}>
+                <DataGrid
+                rows={traits}
+                columns={columns}
+                />
+            </Box>
+        );
+    };
+
     return (
         <Container>
-            <Paper>
-                <Typography variant="h4" component="h1" mb={3}>
-                    {constituent.firstName} {constituent.lastName}
-                </Typography>
-                <Typography mb={3}>
-                    {constituent.email}
-                </Typography>
-            </Paper>
-            
-            
+            <Stack>
+                <AppHeader />
+                <Paper elevation={3}>
+                    <Stack padding={4}>
+                        <Typography variant="h4" component="h1" mb={3}>
+                            {constituent.firstName} {constituent.lastName}
+                        </Typography>
+                        <Typography mb={3}>
+                            {constituent.email}
+                        </Typography>
+                        <Typography mb={3}>
+                            {constituent.address}
+                        </Typography>
+                        {renderTraits(constituent.traits)}
+                    </Stack>
+                </Paper>
+            </Stack>
         </Container>
     );
 }
