@@ -6,6 +6,10 @@ import AppHeader from "@/src/components/AppHeader";
 import { ConstituentProps, TraitProps } from "@/src/types/index.types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { parseConstituent } from "@/src/helpers/parse";
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import EmailIcon from '@mui/icons-material/Email';
+import HomeIcon from '@mui/icons-material/Home';
+import FaceIcon from '@mui/icons-material/Face';
 
 
 type Props = {
@@ -65,20 +69,28 @@ const UserPage: React.FC<Props> = (props) => {
         );
     };
 
+    const fullName = `${constituent.firstName} ${constituent.lastName}`;
+
     return (
         <Container>
             <Stack>
-                <AppHeader />
+                <AppHeader pageName={fullName}/>
                 <Paper elevation={3}>
                     <Stack padding={4}>
                         <Typography variant="h4" component="h1" mb={3}>
-                            {constituent.firstName} {constituent.lastName}
+                            {fullName}
                         </Typography>
                         <Typography mb={3}>
-                            {constituent.email}
+                            <EmailIcon /> {constituent.email}
                         </Typography>
                         <Typography mb={3}>
-                            {constituent.address}
+                            <HomeIcon /> {constituent.address} {constituent.zip}
+                        </Typography>
+                        <Typography mb={3}>
+                            <LocalPhoneIcon /> {constituent.phoneNumber}
+                        </Typography>
+                        <Typography variant="h5" component="h2">
+                            <FaceIcon /> Traits
                         </Typography>
                         {renderTraits(constituent.traits)}
                     </Stack>
