@@ -9,7 +9,7 @@ import { l2Api } from "@/src/lib/l2";
 import { L2User, ZendeskUser } from "@/src/interfaces/index.interface";
 import { zendeskApi } from "@/src/lib/zendesk";
 
-const DataMenu: React.FC = (props) => {
+const DataMenu: React.FC = () => {
 
     const handleL2Import = async () => {
         try {
