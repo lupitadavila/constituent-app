@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Source {
+  CSV
+  L2
+  ZENDESK
+}
+
+enum VotingRegistration {
+  DEMOCRAT
+  REPUBLICAN
+  INDEPENDENT
+  UNREGISTERED
+  OTHER
+}
+
+model Constituent {
+  id            String       @id @default(cuid())
+  firstName     String?
+  lastName      String?
+  email         String?   @unique
+  address       String?
+  phoneNumber   Int?
+  zip           Int?
+  registration  VotingRegistration
+  traits        Trait[]   @relation("ConstituentTraits")
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  @@map(name: "constituents")
+}
+
+model Trait {
+  id            String      @id @default(cuid())
+  name          String?
+  value         String?
+  source        Source
+  constituent   Constituent@relation("ConstituentTraits", fields: [constituentId], references: [id])
+  constituentId String
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  @@map(name: "traits")
+}
