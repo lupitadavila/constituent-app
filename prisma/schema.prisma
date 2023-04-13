@@ -35,8 +35,8 @@ model Trait {
   name          String?
   value         String?
   source        Source
-  constituent   Constituent @relation("ConstituentTraits", fields: [constituentId], references: [id])
-  constituentId String
+  constituent   Constituent? @relation("ConstituentTraits", fields: [constituentId], references: [id])
+  constituentId String?
   createdAt     DateTime    @default(now()) @map(name: "created_at")
   updatedAt     DateTime    @updatedAt @map(name: "updated_at")
   @@map(name: "traits")
