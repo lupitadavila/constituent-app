@@ -3,9 +3,9 @@ import type { GetServerSideProps } from "next";
 import prisma from '../lib/prisma';
 import Paper from '@mui/material/Paper';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { ConstituentProps } from "@/interfaces";
+import { ConstituentProps } from "@/src/interfaces";
 import { Box, Button, Container, Divider, IconButton, InputBase, Stack, Typography } from "@mui/material";
-import DataMenu from "@/components/DataMenu";
+import DataMenu from "@/src/components/DataMenu";
 import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';
 import SearchIcon from '@mui/icons-material/Search';
 import TuneIcon from '@mui/icons-material/Tune';
@@ -90,8 +90,6 @@ const Home: React.FC<Props> = (props) => {
             <DataGrid
               rows={constituentData ? constituentData : props.constituentList}
               columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
               checkboxSelection
               rowSelection
               loading={isLoading}

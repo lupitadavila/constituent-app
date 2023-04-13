@@ -1,5 +1,5 @@
-import { ConstituentProps } from "@/interfaces";
-import prisma from "@/lib/prisma";
+import { ConstituentProps } from "@/src/interfaces";
+import prisma from "@/src/lib/prisma";
 import { Trait } from "@prisma/client";
 import { Container, Paper, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
@@ -10,9 +10,19 @@ type Props = {
     constituent: ConstituentProps,
 };
 
+type Params = {
+    id: string,
+};
+
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const { id } = params;
+    const { id } = params as Params;
     const constituent = await prisma.constituent.findUnique({ where: { id } });
+
+    if (constituent === null) {
+        return {
+            props: { constituent: null}
+        }
+    }
 
     return {
         props: {
@@ -34,8 +44,8 @@ const UserPage: React.FC<Props> = (props) => {
                 <Typography variant="h4" component="h1" mb={3}>
                     {constituent.firstName} {constituent.lastName}
                 </Typography>
-                <Typography variant="p" mb={3}>
-                    {constituent.traits}
+                <Typography mb={3}>
+                    {constituent.email}
                 </Typography>
             </Paper>
             
