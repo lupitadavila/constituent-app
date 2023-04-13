@@ -7,12 +7,22 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 
 const DataMenu: React.FC = (props) => {
+    const handleFile = (files) => {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            // Use reader.result
+            alert(reader.result)
+        }
+        reader.readAsText(files[0]);
+
+    }
     return (
         <Stack direction="row" alignItems="center" spacing={2} mb={3}>
             <Button
                 variant="contained"
                 component="label"
                 startIcon={<UploadFileIcon />}
+                onSubmit={handleFile}
             >
                 Upload CSV
                 <input hidden accept=".csv" type="file" />
