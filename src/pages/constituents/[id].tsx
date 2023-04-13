@@ -1,4 +1,4 @@
-import { ConstituentProps } from "@/src/interfaces";
+import { ConstituentProps } from "@/src/interfaces/index.interface";
 import prisma from "@/src/lib/prisma";
 import { Trait } from "@prisma/client";
 import { Container, Paper, Typography } from "@mui/material";

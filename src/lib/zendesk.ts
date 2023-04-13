@@ -1,5 +1,5 @@
 
-import { Stance, ZendeskUser } from "../interfaces";
+import { Stance, ZendeskUser } from "@/src/interfaces/index.interface";
 
 class ZendeskClient {
     getUsers() {
@@ -13,7 +13,7 @@ class ZendeskClient {
                 Created_at: "",
                 Updated_at: "",
                 High_school: "Merry High School",
-                Net_neutrality_stance: Stance.Pro,
+                Net_neutrality_stance: "pro",
             },
             {
                 Id: 2,
@@ -24,7 +24,7 @@ class ZendeskClient {
                 Created_at: "",
                 Updated_at: "",
                 High_school: "Gateway High School",
-                Net_neutrality_stance: Stance.Con,
+                Net_neutrality_stance: "con",
             },
             {
                 Id: 3,
@@ -35,7 +35,7 @@ class ZendeskClient {
                 Created_at: "",
                 Updated_at: "",
                 High_school: "Stanford High School",
-                Net_neutrality_stance: Stance.Pro,
+                Net_neutrality_stance: "pro",
             },
             {
                 Id: 4,
@@ -46,7 +46,7 @@ class ZendeskClient {
                 Created_at: "",
                 Updated_at: "",
                 High_school: "Garden High School",
-                Net_neutrality_stance: Stance.Con,
+                Net_neutrality_stance: "con",
             },
         ];
         return Promise.resolve(users);

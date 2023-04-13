@@ -3,7 +3,7 @@ import type { GetServerSideProps } from "next";
 import prisma from '../lib/prisma';
 import Paper from '@mui/material/Paper';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { ConstituentProps } from "@/src/interfaces";
+import { ConstituentProps } from "@/src/interfaces/index.interface";
 import { Box, Button, Container, Divider, IconButton, InputBase, Stack, Typography } from "@mui/material";
 import DataMenu from "@/src/components/DataMenu";
 import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';

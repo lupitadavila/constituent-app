@@ -1,4 +1,4 @@
-import { L2User, VotingRegistrationL2 } from "../interfaces";
+import { L2User} from "../interfaces/index.interface";
 
 class L2Client {
     getUsers() {
@@ -12,7 +12,7 @@ class L2Client {
                 City: "New York",
                 Zip: "232423",
                 Occupation: "Nail tech",
-                Voting_registration: VotingRegistrationL2.Democrat,
+                Voting_registration: "democrat",
                 Email: "neverwalkcorneliastreet@again.net",
                 Phone: "123324343",
                 Household: "123123-12312312",
@@ -26,7 +26,7 @@ class L2Client {
                 City: "New York",
                 Zip: "32423",
                 Occupation: "Dancer",
-                Voting_registration: VotingRegistrationL2.Republican,
+                Voting_registration: "republican",
                 Email: "antihero@gmail.com",
                 Phone: "5554343",
                 Household: "23323232",
@@ -40,7 +40,7 @@ class L2Client {
                 City: "San Francisco",
                 Zip: "94121",
                 Occupation: "Teacher",
-                Voting_registration: VotingRegistrationL2.Democrat,
+                Voting_registration: "democrat",
                 Email: "athousandcuts@gmail.com",
                 Phone: "5558966",
                 Household: "123df-112312",
@@ -54,7 +54,7 @@ class L2Client {
                 City: "New York",
                 Zip: "232923",
                 Occupation: "Taxi Driver",
-                Voting_registration: VotingRegistrationL2.Independent,
+                Voting_registration: "independent",
                 Email: "idrivecars@limo.net",
                 Phone: "123324343",
                 Household: "123123-112412",
@@ -68,7 +68,7 @@ class L2Client {
                 City: "Idaho",
                 Zip: "232423",
                 Occupation: "NA",
-                Voting_registration: VotingRegistrationL2.Democrat,
+                Voting_registration: "democrat",
                 Email: "sheri@super.com",
                 Phone: "123324843",
                 Household: "123123-199312",
@@ -82,7 +82,7 @@ class L2Client {
                 City: "Colorado",
                 Zip: "232423",
                 Occupation: "Writer",
-                Voting_registration: VotingRegistrationL2.Republican,
+                Voting_registration: "republican",
                 Email: "writer_harry@gmail.com",
                 Phone: "129324343",
                 Household: "1dfgdf-dfg2",

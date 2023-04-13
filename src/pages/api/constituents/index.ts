@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../lib/prisma'
-import { ConstituentProps } from '../../../interfaces';
+import { ConstituentProps } from '../../../interfaces/index.interface';
 
 // GET /api/constituents?q=:searchString
 export default async function handle(
