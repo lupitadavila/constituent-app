@@ -1,3 +1,4 @@
+import { Source } from "@prisma/client";
 import { Registration, Stance } from "../types/index.types";
 
 export interface L2User {
@@ -26,3 +27,19 @@ export interface ZendeskUser {
     High_school: string;
     Net_neutrality_stance: Stance;
 };
+
+export interface ConstituentCreateRequest {
+    firstName: string;
+    lastName: string;
+    email: string;
+    address?: string;
+    phoneNumber: number;
+    zip?: number;
+    traits: TraitCreateRequest[];
+}
+
+export interface TraitCreateRequest {
+    name: string;
+    value: string;
+    source: Source;
+}
