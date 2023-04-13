@@ -3,29 +3,30 @@ import type { GetServerSideProps } from "next";
 import prisma from '../lib/prisma';
 import Paper from '@mui/material/Paper';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { ConstituentProps } from "@/src/interfaces/index.interface";
-import { Box, Button, Container, Divider, IconButton, InputBase, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Container, Divider, IconButton, InputBase, Stack, Typography } from "@mui/material";
 import DataMenu from "@/src/components/DataMenu";
 import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';
 import SearchIcon from '@mui/icons-material/Search';
 import TuneIcon from '@mui/icons-material/Tune';
+import { ConstituentProps } from "../types/index.types";
+import { parseConstituents } from "../helpers/parse";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const constituentList = await prisma.constituent.findMany();
+  const constituentList = await prisma.constituent.findMany({
+    include: {
+      traits: true,
+    },
+  });
 
   return {
     props: { 
-      constituentList: constituentList.map((constituent: any) => ({
-        ...constituent,
-        createdAt: constituent.createdAt.toISOString(),
-        updatedAt: constituent.updatedAt.toISOString(),
-      } as unknown as ConstituentProps))
+      constituentList: parseConstituents(constituentList)
      }
   };
 };
 
 type Props = {
-  constituentList: ConstituentProps [];
+  constituentList: ConstituentProps[];
 };
 
 const Home: React.FC<Props> = (props) => {
@@ -42,12 +43,18 @@ const Home: React.FC<Props> = (props) => {
       </Button>
     )
   };
+
+  const renderTraits = (params: GridRenderCellParams) => {
+    console.log(params);
+    return <Chip label={params.value.length} />;
+  };
+
   const columns: GridColDef[] = [
     { field: 'firstName', headerName: 'First name', width: 130 },
     { field: 'lastName', headerName: 'Last name', width: 130 },
     { field: 'email', headerName: 'Email', width: 130 },
     { field: 'address', headerName: 'Address', width: 200 },
-    { field: 'registration', headerName: 'Political Party', width: 130 },
+    { field: 'traits', headerName: 'Traits', width: 130, renderCell: renderTraits },
     { field: 'id', headerName: 'Details', width: 130, renderCell: renderButtonById },
   ];
 

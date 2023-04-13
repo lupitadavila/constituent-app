@@ -1,5 +1,5 @@
 
-import { Stance, ZendeskUser } from "@/src/interfaces/index.interface";
+import { ZendeskUser } from "@/src/interfaces/index.interface";
 
 class ZendeskClient {
     getUsers() {

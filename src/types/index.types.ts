@@ -1,4 +1,4 @@
-import { Trait } from "@prisma/client";
+import { Source } from "@prisma/client";
 
 export type ConstituentProps = {
     id: string;
@@ -8,10 +8,20 @@ export type ConstituentProps = {
     address: string;
     phoneNumber: number;
     zip: number;
-    traits: Trait[];
+    traits: TraitProps[];
     createdAt: string;
     updatedAt: string;
 };
+
+export type TraitProps = {
+    id: string;
+    name: string;
+    value: string;
+    source: Source;
+    constituentId: string;
+    createdAt: string;
+    updatedAt: string;
+}
 
 export type Registration = 'democrat' | 'republican' | 'independent' | 'unregistered';
 

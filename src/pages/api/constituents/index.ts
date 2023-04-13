@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../lib/prisma'
-import { ConstituentProps } from '../../../interfaces/index.interface';
+import { parseConstituents } from '@/src/helpers/parse';
 
 // GET /api/constituents?q=:searchString
 export default async function handle(
@@ -39,13 +39,13 @@ export default async function handle(
           },
         ],
       },
+      include: {
+        traits: true,
+      },
     });
   }
-  
 
-  return res.json(results.map((constituent: any) => ({
-    ...constituent,
-    createdAt: constituent.createdAt.toISOString(),
-    updatedAt: constituent.updatedAt.toISOString(),
-  } as unknown as ConstituentProps)))
+
+  
+  return res.json(parseConstituents(results))
 }
