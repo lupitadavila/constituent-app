@@ -11,9 +11,12 @@ import { zendeskApi } from "@/src/lib/zendesk";
 import { mapL2ConstituentRequest, mapZendeskConstituentRequest } from "@/src/helpers/parse";
 import Link from "next/link";
 import { apiClient } from "@/src/lib/api";
+import { ConstituentContext, ConstituentContextType } from "@/src/context/constituentContext";
+import { ConstituentProps } from "@/src/types/index.types";
 
 type Props = {
-    selectedConstituentIds: string[] | null;
+    onDeleteRow: (id: string) => void;
+    onAddRow: (r: ConstituentProps) => void;
 };
 
 const DataMenu: React.FC<Props> = (props) => {
@@ -22,6 +25,12 @@ const DataMenu: React.FC<Props> = (props) => {
     const [isError, setError] = useState(false)
     const [isSuccess, setSuccess] = useState(false);
     const [isZendeskLoading, setZendeskLoading] = useState(false);
+    
+    const {
+        constituents,
+        selectedConstituentIds,
+        setConstituents
+    } = React.useContext(ConstituentContext) as ConstituentContextType;
 
     const handleL2Import = async () => {
         setError(false);
@@ -29,6 +38,7 @@ const DataMenu: React.FC<Props> = (props) => {
         setL2Loading(true);
         try {
             const users: L2User[] = await l2Api.getUsers();
+            
             users.map(user => {
                 const requestData = mapL2ConstituentRequest(user);
                 apiClient.createConstituent(requestData)
@@ -36,14 +46,19 @@ const DataMenu: React.FC<Props> = (props) => {
                         setL2Loading(false);
                         if (res.status === 500) {
                             setError(true);
+                            throw("Error occured")
                         } else if (res.status == 201) {
                             setSuccess(true);
                         }
                         return res.json();
-                    });
-            })
+                    })
+                    .then(constituent => {
+                        props.onAddRow(constituent);
+                    })
+                    .catch(err => console.log(err))
+            });
         } catch(err) {
-            console.error(err);
+            console.log(err);
         }
     };
 
@@ -53,6 +68,7 @@ const DataMenu: React.FC<Props> = (props) => {
         setZendeskLoading(true);
         try {
             const users: ZendeskUser[] = await zendeskApi.getUsers();
+
             users.map(user => {
                 const requestData = mapZendeskConstituentRequest(user);
                 apiClient.createConstituent(requestData)
@@ -60,24 +76,29 @@ const DataMenu: React.FC<Props> = (props) => {
                         setZendeskLoading(false);
                         if (res.status === 500) {
                             setError(true);
+                            throw("Error occurred")
                         } else if (res.status == 201) {
                             setSuccess(true);
                         }
                         return res.json();
-                    });
+                    })
+                    .then(constituent => {
+                        props.onAddRow(constituent);
+                    })
+                    .catch(err => console.log(err));
             })
         } catch(err) {
-            console.error(err);
+            console.log(err);
         }
     };
 
     const handleDelete = () => {
-        const { selectedConstituentIds } = props;
-        console.log(selectedConstituentIds);
-        if (selectedConstituentIds !== null) {
+        if (selectedConstituentIds !== null && constituents !== null) {
             selectedConstituentIds.map((id) => {
                 apiClient.deleteConstituent(id)
-                .then((res) => res.json());
+                    .then(() => {
+                        props.onDeleteRow(id);
+                    })
             });
         }
     }
@@ -85,7 +106,7 @@ const DataMenu: React.FC<Props> = (props) => {
     const renderError = (isError: Boolean) => {
         const alert = (
             <Stack mb={3}>
-                <Alert severity="error">An error occured. Please try again.</Alert>
+                <Alert severity="error">Some or all data could not be imported.</Alert>
             </Stack>
         );
         return isError ? alert : null;
@@ -99,7 +120,7 @@ const DataMenu: React.FC<Props> = (props) => {
         const alert = (
             <Stack mb={3}>
                 <Alert severity="success">
-                    Users successfully imported. <Link href="#" onClick={refreshPage}>Refresh</Link>
+                    Users successfully imported.
                 </Alert>
             </Stack>
         );

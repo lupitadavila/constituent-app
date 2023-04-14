@@ -1,7 +1,7 @@
 import { ConstituentCreateRequest } from "../interfaces/index.interface";
 
 const CREATE_CONSTITUENT_URI = "/api/constituents/create";
-const CONSTITUENT_URI = "/api/constituents/"
+const CONSTITUENT_URI = "/api/constituents"
 
 class ApiClient {
     createConstituent(requestData: ConstituentCreateRequest) : Promise<Response> {
@@ -18,7 +18,10 @@ class ApiClient {
         return fetch(`${CONSTITUENT_URI}/${id}`);
     };
     fetchConstituentsByQuery(q: string) : Promise<Response> {
-        return fetch(`/api/constituents?q=${q}`);
+        return fetch(`${CONSTITUENT_URI}?q=${q}`);
+    };
+    fetchAllConstituents() : Promise<Response> {
+        return fetch(CONSTITUENT_URI);
     };
     deleteConstituent(id: string) : Promise<Response> {
         return fetch(`${CONSTITUENT_URI}/${id}`, {

@@ -18,17 +18,21 @@ export default async function handle(
           create: body.traits
         }
       },
+      include: {
+        traits: true,
+      },
     });
     return res.status(201).json(constituent)
   } catch(err) {
+    debugger;
     let message;
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       if (err.code === 'P2002') {
         message = "There is a unique constraint violation, a new user cannot be created with this email";
       }
     } else {
-      message = "Unable to create user"
+      message = "Unable to create user";
     }
-    return res.status(500).json({ message });
+    return res.status(500).json({ message, err });
   }
 }

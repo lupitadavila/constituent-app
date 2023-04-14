@@ -46,6 +46,9 @@ export default async function handle(
 async function handleGET(constituentId: string, res: NextApiResponse<any>) {
     const constituent = await prisma.constituent.findUnique({
       where: { id: constituentId },
+      include: {
+        traits: true,
+      },
     })
 
     if (constituent !== null) {
