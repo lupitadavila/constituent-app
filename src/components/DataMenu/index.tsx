@@ -22,11 +22,13 @@ const DataMenu: React.FC<Props> = (props) => {
 
     const [isL2Loading, setL2Loading] = useState(false);
     const [isError, setError] = useState(false)
+    const [errorMsg, setErrorMsg] = useState(null);
     const [isSuccess, setSuccess] = useState(false);
     const [isZendeskLoading, setZendeskLoading] = useState(false);
     
     const {
         selectedConstituentIds,
+        constituents,
     } = React.useContext(ConstituentContext) as ConstituentContextType;
 
     const handleL2Import = async () => {
@@ -100,19 +102,24 @@ const DataMenu: React.FC<Props> = (props) => {
                     })
             });
         }
-    }
+    };
+
+    const handleClean = () => {
+        if (selectedConstituentIds !== null && constituents != null) {
+            const cleaningList = constituents.filter(c => {
+                return selectedConstituentIds.indexOf(c.id) !== -1
+            });
+            console.log("starting to clean!")
+        }
+    };
 
     const renderError = (isError: Boolean) => {
         const alert = (
             <Stack mb={3}>
-                <Alert severity="error">Some or all data could not be imported.</Alert>
+                <Alert severity="error">{errorMsg ? errorMsg : "Some or all data could not be imported."}</Alert>
             </Stack>
         );
         return isError ? alert : null;
-    };
-
-    const refreshPage = () => {
-        window.location.reload();
     };
 
     const renderSuccess = (isSuccess: Boolean) => {
@@ -125,6 +132,8 @@ const DataMenu: React.FC<Props> = (props) => {
         );
         return isSuccess ? alert : null;
     };
+
+    const isDisabled: boolean = (selectedConstituentIds && selectedConstituentIds?.length == 0) as boolean;
 
     return (
         <Box>
@@ -157,10 +166,18 @@ const DataMenu: React.FC<Props> = (props) => {
                 >
                     Import from Zendesk
                 </LoadingButton>
-                <IconButton aria-label="delete" onClick={handleDelete}>
+                <IconButton 
+                    aria-label="delete"
+                    onClick={handleDelete}
+                    disabled={isDisabled}
+                >
                     <DeleteIcon />
                 </IconButton>
-                <IconButton aria-label="Data cleanup">
+                <IconButton
+                    aria-label="Data cleanup"
+                    onClick={handleClean}
+                    disabled={isDisabled}
+                >
                     <CleaningServicesIcon />
                 </IconButton>
             </Stack>
