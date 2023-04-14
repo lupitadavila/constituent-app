@@ -21,10 +21,10 @@ export interface ZendeskUser {
     Name: string;
     Email: string;
     Phone: string;
-    External_id: string;
     Created_at: string;
     Updated_at: string;
     High_school: string;
+    External_id: string;
     Net_neutrality_stance: Stance;
 };
 
@@ -32,10 +32,10 @@ export interface ConstituentCreateRequest {
     firstName: string;
     lastName: string;
     email: string;
-    address?: string;
     phoneNumber: number;
-    zip?: number;
     traits: TraitCreateRequest[];
+    address?: string;
+    zip?: number;
 }
 
 export interface TraitCreateRequest {

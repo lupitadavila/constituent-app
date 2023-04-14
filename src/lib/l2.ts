@@ -90,7 +90,6 @@ class L2Client {
         ];
         return Promise.resolve(users);
     }
-
 }
 
 export const l2Api = new L2Client();

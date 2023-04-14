@@ -23,6 +23,6 @@ export type TraitProps = {
     updatedAt: string;
 }
 
-export type Registration = 'democrat' | 'republican' | 'independent' | 'unregistered';
+export type Registration = "democrat" | "republican" | "independent" | "unregistered";
 
-export type Stance = 'pro' | 'con';
+export type Stance = "pro" | "con";

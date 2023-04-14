@@ -6,7 +6,7 @@ import ImportExportIcon from '@mui/icons-material/ImportExport';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import { l2Api } from "@/src/lib/l2";
-import { L2User, ZendeskUser } from "@/src/interfaces/index.interface";
+import { ConstituentCreateRequest, L2User, ZendeskUser } from "@/src/interfaces/index.interface";
 import { zendeskApi } from "@/src/lib/zendesk";
 import { mapL2ConstituentRequest, mapZendeskConstituentRequest } from "@/src/helpers/parse";
 import { apiClient } from "@/src/lib/api";
@@ -26,7 +26,6 @@ const DataMenu: React.FC<Props> = (props) => {
     const [isZendeskLoading, setZendeskLoading] = useState(false);
     
     const {
-        constituents,
         selectedConstituentIds,
     } = React.useContext(ConstituentContext) as ConstituentContextType;
 
@@ -61,20 +60,21 @@ const DataMenu: React.FC<Props> = (props) => {
     };
 
     const handleZendeskImport = async () => {
-        setError(false);
-        setSuccess(false);
-        setZendeskLoading(true);
         try {
+            setError(false);
+            setSuccess(false);
+            setZendeskLoading(true);
+
             const users: ZendeskUser[] = await zendeskApi.getUsers();
 
             users.map(user => {
-                const requestData = mapZendeskConstituentRequest(user);
+                const requestData: ConstituentCreateRequest = mapZendeskConstituentRequest(user);
                 apiClient.createConstituent(requestData)
                     .then((res) => {
                         setZendeskLoading(false);
                         if (res.status === 500) {
                             setError(true);
-                            throw("Error occurred")
+                            throw("Error");
                         } else if (res.status == 201) {
                             setSuccess(true);
                         }
@@ -83,10 +83,11 @@ const DataMenu: React.FC<Props> = (props) => {
                     .then(constituent => {
                         props.onAddRow(constituent);
                     })
-                    .catch(err => console.log(err));
-            })
+                    .catch(err => console.log(err))
+            });
+
         } catch(err) {
-            console.log(err);
+            console.debug(err);
         }
     };
 

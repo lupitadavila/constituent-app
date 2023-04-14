@@ -38,6 +38,11 @@ export const mapL2ConstituentRequest = (user : L2User) : ConstituentCreateReques
         value: user.Household,
         source: Source.L2,
     }
+    const registration: TraitCreateRequest = {
+        name: "votingRegistration",
+        value: user.Voting_registration,
+        source: Source.L2
+    }
     return {
         firstName: user.first_name,
         lastName: user.last_name,
@@ -45,7 +50,7 @@ export const mapL2ConstituentRequest = (user : L2User) : ConstituentCreateReques
         address: `${user.Street_address_1} ${user.Street_address_2}`,
         phoneNumber: Number(user.Phone),
         zip: Number(user.Zip),
-        traits: [occupation, household],
+        traits: [occupation, household, registration],
     };
 };
 
@@ -62,6 +67,12 @@ export const mapZendeskConstituentRequest = (user : ZendeskUser) : ConstituentCr
         source: Source.ZENDESK,
     };
 
+    const netNeutrality: TraitCreateRequest = {
+        name: "netNeutralityStance",
+        value: user.Net_neutrality_stance,
+        source: Source.ZENDESK,
+    };
+
     const name = user.Name.split(" ");
 
     return {
@@ -69,6 +80,6 @@ export const mapZendeskConstituentRequest = (user : ZendeskUser) : ConstituentCr
         lastName: name[1],
         email: user.Email,
         phoneNumber: Number(user.Phone),
-        traits: [highSchool, externalId],
+        traits: [netNeutrality, highSchool, externalId],
     };
 };

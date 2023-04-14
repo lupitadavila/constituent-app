@@ -42,7 +42,7 @@ export default async function handle(
     }
 }
 
-// GET /api/post/:id
+// GET /api/constituents/:id
 async function handleGET(constituentId: string, res: NextApiResponse<any>) {
     const constituent = await prisma.constituent.findUnique({
       where: { id: constituentId },
@@ -58,7 +58,7 @@ async function handleGET(constituentId: string, res: NextApiResponse<any>) {
     }
 }
 
-// DELETE /api/post/:id
+// DELETE /api/constituents/:id
 async function handleDELETE(constituentId: string, res: NextApiResponse<any>) {
     const constituent = await prisma.constituent.delete({
       where: { id: constituentId },
@@ -66,7 +66,7 @@ async function handleDELETE(constituentId: string, res: NextApiResponse<any>) {
     return res.json(constituent);
 }
 
-// PUT /api/post/:id
+// PUT /api/constituents/:id
 async function handlePUT(constituentId: string, data: any, res: NextApiResponse<any>) {
     if (data === undefined) {
         return res.status(400).json({ message: "Nothing to update" });

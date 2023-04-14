@@ -10,7 +10,7 @@ export default async function handle(
 ) {
   const { body } = req;
 
-  try{
+  try {
     const constituent = await prisma.constituent.create({
       data: {
         ...body,
@@ -22,16 +22,14 @@ export default async function handle(
         traits: true,
       },
     });
-    return res.status(201).json(constituent)
+    return res.status(201).json(constituent);
   } catch(err) {
-    debugger;
+
     let message;
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       if (err.code === 'P2002') {
         message = "There is a unique constraint violation, a new user cannot be created with this email";
       }
-    } else {
-      message = "Unable to create user";
     }
     return res.status(500).json({ message, err });
   }
