@@ -13,15 +13,10 @@ type Props = {
 const ConstituentData: React.FC<Props> = (props) => {
     const {
         constituents,
-        setSelectedConstituentIds,
-        setConstituents
+        setSelectedConstituentIds
     } = React.useContext(ConstituentContext) as ConstituentContextType;
 
     const apiRef = useGridApiRef();
-
-    useEffect(() => {
-      setConstituents(props.constituentDefaultList);
-    });
 
     const renderTraits = (params: GridRenderCellParams) => {
         return <Chip icon={<FaceIcon />} label={params.value.length} />;

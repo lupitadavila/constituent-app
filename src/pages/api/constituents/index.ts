@@ -45,7 +45,5 @@ export default async function handle(
     });
   }
 
-
-  
   return res.json(parseConstituents(results))
 }

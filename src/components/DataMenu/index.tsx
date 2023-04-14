@@ -9,7 +9,6 @@ import { l2Api } from "@/src/lib/l2";
 import { L2User, ZendeskUser } from "@/src/interfaces/index.interface";
 import { zendeskApi } from "@/src/lib/zendesk";
 import { mapL2ConstituentRequest, mapZendeskConstituentRequest } from "@/src/helpers/parse";
-import Link from "next/link";
 import { apiClient } from "@/src/lib/api";
 import { ConstituentContext, ConstituentContextType } from "@/src/context/constituentContext";
 import { ConstituentProps } from "@/src/types/index.types";
@@ -29,7 +28,6 @@ const DataMenu: React.FC<Props> = (props) => {
     const {
         constituents,
         selectedConstituentIds,
-        setConstituents
     } = React.useContext(ConstituentContext) as ConstituentContextType;
 
     const handleL2Import = async () => {
@@ -93,7 +91,7 @@ const DataMenu: React.FC<Props> = (props) => {
     };
 
     const handleDelete = () => {
-        if (selectedConstituentIds !== null && constituents !== null) {
+        if (selectedConstituentIds !== null) {
             selectedConstituentIds.map((id) => {
                 apiClient.deleteConstituent(id)
                     .then(() => {
@@ -167,8 +165,6 @@ const DataMenu: React.FC<Props> = (props) => {
             </Stack>
         </Box>
     );
-}
-
-
+};
 
 export default DataMenu;

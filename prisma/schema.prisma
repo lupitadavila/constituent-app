@@ -20,7 +20,7 @@ model Constituent {
   id            String    @id @default(cuid())
   firstName     String?
   lastName      String?
-  email         String?   @unique
+  email         String?
   address       String?
   phoneNumber   Int?
   zip           Int?
