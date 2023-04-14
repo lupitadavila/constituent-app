@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Betterments
+- use (SWR)[https://swr.vercel.app/] — a custom hook library that handles caching, revalidation, focus tracking, re-fetching on the interval, and more
+- improve state management
+- handle cleaning/merging
+- incorporate CSV file import
+- add tests
+
 ## Getting Started
 
 Create an `.env` file with database url

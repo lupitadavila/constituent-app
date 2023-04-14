@@ -12,7 +12,11 @@ import { mapL2ConstituentRequest, mapZendeskConstituentRequest } from "@/src/hel
 import Link from "next/link";
 import { apiClient } from "@/src/lib/api";
 
-const DataMenu: React.FC = () => {
+type Props = {
+    selectedConstituentIds: string[] | null;
+};
+
+const DataMenu: React.FC<Props> = (props) => {
 
     const [isL2Loading, setL2Loading] = useState(false);
     const [isError, setError] = useState(false)
@@ -66,6 +70,17 @@ const DataMenu: React.FC = () => {
             console.error(err);
         }
     };
+
+    const handleDelete = () => {
+        const { selectedConstituentIds } = props;
+        console.log(selectedConstituentIds);
+        if (selectedConstituentIds !== null) {
+            selectedConstituentIds.map((id) => {
+                apiClient.deleteConstituent(id)
+                .then((res) => res.json());
+            });
+        }
+    }
 
     const renderError = (isError: Boolean) => {
         const alert = (
@@ -122,7 +137,7 @@ const DataMenu: React.FC = () => {
                 >
                     Import from Zendesk
                 </LoadingButton>
-                <IconButton aria-label="delete">
+                <IconButton aria-label="delete" onClick={handleDelete}>
                     <DeleteIcon />
                 </IconButton>
                 <IconButton aria-label="Data cleanup">

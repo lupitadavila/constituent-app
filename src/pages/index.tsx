@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import type { GetServerSideProps } from "next";
 import prisma from '../lib/prisma';
 import Paper from '@mui/material/Paper';
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { Box, Button, Chip, Container, Divider, IconButton, InputBase, Stack, Typography } from "@mui/material";
+import { DataGrid, GridColDef, GridRenderCellParams, GridRowId, GridRowSelectionModel } from '@mui/x-data-grid';
+import { Box, Button, Chip, Container, Divider, IconButton, InputBase, Stack } from "@mui/material";
 import DataMenu from "@/src/components/DataMenu";
 import SearchIcon from '@mui/icons-material/Search';
 import TuneIcon from '@mui/icons-material/Tune';
@@ -12,6 +12,7 @@ import { ConstituentProps } from "../types/index.types";
 import { parseConstituents } from "../helpers/parse";
 import AppHeader from "@/src/components/AppHeader";
 import { apiClient } from "../lib/api";
+import ConstituentProvider, { ConstituentContext } from "../context/constituentContext";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const constituentList = await prisma.constituent.findMany({
@@ -33,6 +34,7 @@ type Props = {
 
 const Home: React.FC<Props> = (props) => {
   const [constituentData, setData] = useState(null);
+  const [selectedConstituentIds, setSelectedConstituentIds] = useState([] as string[]);
   const [isLoading, setLoading] = useState(false);
 
   const renderButtonById = (params: GridRenderCellParams) => {
@@ -69,9 +71,16 @@ const Home: React.FC<Props> = (props) => {
         setLoading(false)
       });
   };
+
+  const onRowSelect = (rows: GridRowSelectionModel) => {
+    const ids : string[] = [];
+    rows.map((row: GridRowId) => ids.push(row as string))
+    setSelectedConstituentIds(ids);
+  };
   
   return (
-    <Container>
+    <ConstituentProvider>
+      <Container>
       <Stack>
         <AppHeader />
         <Paper
@@ -91,7 +100,7 @@ const Home: React.FC<Props> = (props) => {
               <TuneIcon />
             </IconButton>
         </Paper>
-        <DataMenu />
+        <DataMenu selectedConstituentIds={selectedConstituentIds}/>
         <Box style={{ height: 400, width: '100%' }}>
             <DataGrid
               rows={constituentData ? constituentData : props.constituentList}
@@ -99,10 +108,12 @@ const Home: React.FC<Props> = (props) => {
               checkboxSelection
               rowSelection
               loading={isLoading}
+              onRowSelectionModelChange={onRowSelect}
             />
         </Box>
       </Stack>
       </Container>
+    </ConstituentProvider>
   );
 };
 
