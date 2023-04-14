@@ -15,7 +15,7 @@ const AppHeader: React.FC<Props> = (props) => {
         }
         return (
             <Breadcrumbs maxItems={2} aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/">
+                <Link color="inherit" href="/">
                     Home
                 </Link>
                 <Typography color="text.primary">{pageName}</Typography>
