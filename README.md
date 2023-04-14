@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Constituent App
+
+Having fun with Next.js
+
+## Project Details
+- [Notes] (https://docs.google.com/document/d/1eezHGG-Sf3d1bdJkT4-P-4tgo1XEsHTkYdsD4YRConw/edit?usp=sharing)
+
 
 ## Betterments
 - use [SWR](https://swr.vercel.app/) — a custom hook library that handles caching, revalidation, focus tracking, re-fetching on the interval, and more
@@ -47,5 +53,8 @@ npx prisma studio
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+
+* This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 
