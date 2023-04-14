@@ -11,6 +11,7 @@ import FaceIcon from '@mui/icons-material/Face';
 import { ConstituentProps } from "../types/index.types";
 import { parseConstituents } from "../helpers/parse";
 import AppHeader from "@/src/components/AppHeader";
+import { apiClient } from "../lib/api";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const constituentList = await prisma.constituent.findMany({
@@ -61,7 +62,7 @@ const Home: React.FC<Props> = (props) => {
   const onSearchInput = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const query = event.target.value;
 
-    fetch(`/api/constituents?q=${query}`)
+    apiClient.fetchConstituentsByQuery(query)
       .then((res) => res.json())
       .then((data) => {
         setData(data)

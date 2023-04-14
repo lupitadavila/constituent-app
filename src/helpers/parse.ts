@@ -3,6 +3,9 @@ import { ConstituentCreateRequest, L2User, TraitCreateRequest, ZendeskUser } fro
 import { ConstituentProps, TraitProps } from "../types/index.types";
 
 export const parseTraits = (traits: any) : TraitProps[] => {
+    if (traits === undefined) {
+        return [];
+    }
     return traits.map((trait: any) => ({
       ...trait,
       createdAt: trait.createdAt.toISOString(),

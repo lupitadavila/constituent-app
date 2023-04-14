@@ -27,8 +27,7 @@ const DataMenu: React.FC = () => {
             const users: L2User[] = await l2Api.getUsers();
             users.map(user => {
                 const requestData = mapL2ConstituentRequest(user);
-                apiClient
-                    .createConstituent(requestData)
+                apiClient.createConstituent(requestData)
                     .then((res) => {
                         setL2Loading(false);
                         if (res.status === 500) {
@@ -52,8 +51,7 @@ const DataMenu: React.FC = () => {
             const users: ZendeskUser[] = await zendeskApi.getUsers();
             users.map(user => {
                 const requestData = mapZendeskConstituentRequest(user);
-                apiClient
-                    .createConstituent(requestData)
+                apiClient.createConstituent(requestData)
                     .then((res) => {
                         setZendeskLoading(false);
                         if (res.status === 500) {
