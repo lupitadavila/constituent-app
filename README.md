@@ -3,7 +3,7 @@
 Having fun with Next.js
 
 ## Project Details
-- [Notes] (https://docs.google.com/document/d/1eezHGG-Sf3d1bdJkT4-P-4tgo1XEsHTkYdsD4YRConw/edit?usp=sharing)
+- [Notes](https://docs.google.com/document/d/1eezHGG-Sf3d1bdJkT4-P-4tgo1XEsHTkYdsD4YRConw/edit?usp=sharing)
 
 
 ## Betterments
